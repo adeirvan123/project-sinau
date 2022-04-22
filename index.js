@@ -55,7 +55,7 @@ app.get('/dashboard', checkAuth, async (req, res) => {
 app.use('/auth', userRoute);
 
 mongoose
-  .connect('mongodb://0.0.0.0:27017/admin')
+  .connect(process.env.MONGO_URI)
   .then(() => {
     app.listen(process.env.PORT, () => {
       console.log(`database and port is connected to port ${process.env.PORT}`);

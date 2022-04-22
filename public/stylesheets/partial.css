@@ -59,6 +59,14 @@
   font-family: serif;
 }
 
+.form-group input:focus {
+  background: transparent;
+}
+
+.form-group input:valid {
+  background: transparent;
+}
+
 .form-group input::placeholder {
   font-size: 16px;
 }

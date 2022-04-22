@@ -11,6 +11,7 @@ const { checkAuth } = require('./middleware/auth');
 const initialize = require('./utils/passport-config');
 const User = require('./models/user');
 const userRoute = require('./routes/user');
+const expressError = require('./utils/expressError');
 
 const app = express();
 
@@ -53,6 +54,16 @@ app.get('/dashboard', checkAuth, async (req, res) => {
 });
 
 app.use('/auth', userRoute);
+
+app.all('*', (req, res, next) => {
+  next(new expressError('Page Not found', 404));
+});
+
+app.use((err, req, res, next) => {
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = 'Someting Went Wrong!!';
+  res.status(statusCode).render('error', { err });
+});
 
 mongoose
   .connect(process.env.MONGO_URI)

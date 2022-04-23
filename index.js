@@ -48,13 +48,13 @@ app.use(methodOverride('_method'));
 
 app.get('/', async (req, res) => {
   const courses = await Course.find({});
-  res.render('home', { courses });
+  res.render('home', { courses, user: req.user, session: req.session });
 });
 
-app.get('/course/:id', async (req, res) => {
+app.get('/course/:id', checkAuth, async (req, res) => {
   const { id } = req.params;
   const c = await Course.findById(id);
-  res.render('course', { c });
+  res.render('course', { c, user: req.user, session: req.session });
 });
 
 app.get('/dashboard', checkAuth, async (req, res) => {
@@ -71,6 +71,13 @@ app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
   if (!err.message) err.message = 'Someting Went Wrong!!';
   res.status(statusCode).render('error', { err });
+});
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
 });
 
 mongoose

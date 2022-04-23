@@ -1,13 +1,17 @@
 <header>
     <h1>Admin</h1>
     <div class="menu">
-        <a href="#">Home</a>
-        <a href="#">Course</a>
-        <a href="#">About</a>
+        <a href="/">Home</a>
+        <a href="/">Course</a>
+        <a href="/">About</a>
     </div>
     <div class="auth">
-        <a href="/auth/sign-up">Sign Up</a>
-        <a href="/auth/sign-in">Sign In</a>
+        <% if (!session.user&&!user) {%>
+            <a href="/auth/sign-up">Sign Up</a>
+            <a href="/auth/sign-in">Sign In</a>
+            <% } else { %>
+                <a href="/auth/sign-out">Sign Out</a>
+                <% } %>
     </div>
 
 </header>

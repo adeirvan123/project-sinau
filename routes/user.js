@@ -1,6 +1,7 @@
 const express = require('express');
 const { checkNotAuth } = require('../middleware/auth');
 const users = require('../controllers/user');
+const catchAsync = require('../utils/catchAsync');
 const router = express.Router();
 
 router
@@ -11,8 +12,8 @@ router
 router
   .route('/sign-up')
   .get(checkNotAuth, users.renderSignUp)
-  .post(checkNotAuth, users.signUp);
+  .post(checkNotAuth, catchAsync(users.signUp));
 
-router.get('/logout', users.signOut);
+router.get('/sign-out', users.signOut);
 
 module.exports = router;

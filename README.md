@@ -1,1 +1,7 @@
-# test doang mah
+# Course Web
+
+### For running
+
+```
+yarn run dev
+```

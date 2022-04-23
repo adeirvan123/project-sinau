@@ -9,9 +9,10 @@ const flash = require('express-flash');
 const session = require('express-session');
 const { checkAuth } = require('./middleware/auth');
 const initialize = require('./utils/passport-config');
-const User = require('./models/user');
 const userRoute = require('./routes/user');
 const expressError = require('./utils/expressError');
+const User = require('./models/user');
+const Course = require('./models/course');
 
 const app = express();
 
@@ -45,8 +46,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 
-app.get('/', (req, res) => {
-  res.render('home');
+app.get('/', async (req, res) => {
+  const courses = await Course.find({});
+  res.render('home', { courses });
+});
+
+app.get('/course/:id', async (req, res) => {
+  const { id } = req.params;
+  const c = await Course.findById(id);
+  res.render('course', { c });
 });
 
 app.get('/dashboard', checkAuth, async (req, res) => {

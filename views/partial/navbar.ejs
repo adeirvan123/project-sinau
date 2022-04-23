@@ -1,5 +1,5 @@
 <header>
-    <h1>Admin</h1>
+    <h1>Sinauu</h1>
     <div class="menu">
         <a href="/">Home</a>
         <a href="/">Course</a>
@@ -10,6 +10,7 @@
             <a href="/auth/sign-up">Sign Up</a>
             <a href="/auth/sign-in">Sign In</a>
             <% } else { %>
+                <span style="font-size: 20px; margin-right: 20px;">Hi, <%= user.username %> </span>
                 <a href="/auth/sign-out">Sign Out</a>
                 <% } %>
     </div>

@@ -7,7 +7,7 @@ module.exports.renderSignIn = (req, res) => {
 };
 
 module.exports.signIn = passport.authenticate('local', {
-  successRedirect: '/',
+  successRedirect: '/course',
   failureRedirect: '/auth/sign-in',
   failureFlash: true,
 });

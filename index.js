@@ -47,8 +47,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 
-app.use('/', courseRoute);
+app.use('/course', courseRoute);
 app.use('/auth', userRoute);
+
+app.get('/', (req, res) => {
+  res.render('home', { user: req.user, session: req.session });
+});
+
+app.get('/about', (req, res) => {
+  res.render('about', { user: req.user, session: req.session });
+});
 
 app.all('*', (req, res, next) => {
   next(new expressError('Page Not found', 404));

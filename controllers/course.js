@@ -2,7 +2,7 @@ const Course = require('../models/course');
 
 module.exports.index = async (req, res) => {
   const courses = await Course.find({});
-  res.render('home', { courses, user: req.user, session: req.session });
+  res.render('courses', { courses, user: req.user, session: req.session });
 };
 
 module.exports.showCourse = async (req, res) => {

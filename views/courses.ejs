@@ -1,0 +1,46 @@
+<% layout('./layout/layout') %>
+    <div class="container">
+        <div class="search">
+            <h1>Course</h1>
+            <div class="input-group">
+                <input type="text" id="search" placeholder="Search Course..." class="search-input">
+                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+        <div class="wrapper">
+            <% for(let course of courses) {%>
+                <a href="/course/<%= course.id %>">
+                    <div class="card">
+                        <img src="<%= course.image %> " alt="">
+                        <div class="text">
+                            <h3>
+                                <%= course.name %>
+                            </h3>
+                            <p>
+                                <%= course.desc %>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                <% } %>
+        </div>
+    </div>
+
+    <script>
+        const input = document.querySelector('.search-input');
+        input.addEventListener('input', filter);
+
+        function filter() {
+            const filter = input.value.toLowerCase();
+            const list = document.querySelectorAll('.card');
+
+            list.forEach((i) => {
+                let text = i.textContent;
+                if (text.toLowerCase().includes(filter.toLowerCase())) {
+                    i.style.display = '';
+                } else {
+                    i.style.display = 'none';
+                }
+            });
+        }
+    </script>

@@ -7,8 +7,6 @@ const router = express.Router();
 
 router.route('/').get(courses.index);
 
-router.route('/about').get(courses.about);
-
-router.route('/course/:id').get(checkAuth, courses.showCourse);
+router.route('/:id').get(checkAuth, catchAsync(courses.showCourse));
 
 module.exports = router;

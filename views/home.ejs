@@ -1,21 +1,70 @@
-<% layout('./layout/layout') %>
-    <div class="container">
-        <h1>Course</h1>
-        <div class="wrapper">
-            <% for(let course of courses) {%>
-                <a href="/course/<%= course.id %>">
-                    <div class="card">
-                        <img src="<%= course.image %> " alt="">
-                        <div class="text">
-                            <h3>
-                                <%= course.name %>
-                            </h3>
-                            <p>
-                                <%= course.desc %>
-                            </p>
-                        </div>
-                    </div>
-                </a>
-                <% } %>
-        </div>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .header {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y291cnNlc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60");
+        height: 100%;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        flex-direction: column;
+    }
+
+    .button {
+        display: flex;
+        margin-top: 30px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 200px;
+    }
+
+    .button a {
+        width: 100%;
+        border-radius: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+    }
+
+    .button a:nth-child(1) {
+        background-color: #fff;
+        color: #000;
+    }
+
+    .button a:nth-child(1):hover {
+        transform: scale(1.1);
+    }
+
+    .button a:nth-child(2) {
+        border: 1px solid #fff;
+        color: #fff;
+    }
+
+    .button a:nth-child(2):hover {
+        transform: scale(1.1);
+    }
+
+</style>
+
+<div class="header">
+    <h1>Let's start learning</h1>
+    <div class="button">
+        <a href="/course">See Courses</a>
+        <% if (!session.user&&!user) {%>
+            <a href="/auth/sign-up">Sign Up</a>
+            <% } %>
     </div>
+</div>

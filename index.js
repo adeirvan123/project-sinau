@@ -7,12 +7,13 @@ const ejsMate = require('ejs-mate');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
-const { checkAuth } = require('./middleware/auth');
 const initialize = require('./utils/passport-config');
-const userRoute = require('./routes/user');
 const expressError = require('./utils/expressError');
+
+const userRoute = require('./routes/user');
+const courseRoute = require('./routes/course');
+
 const User = require('./models/user');
-const Course = require('./models/course');
 
 const app = express();
 
@@ -46,21 +47,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 
-app.get('/', async (req, res) => {
-  const courses = await Course.find({});
-  res.render('home', { courses, user: req.user, session: req.session });
-});
-
-app.get('/course/:id', checkAuth, async (req, res) => {
-  const { id } = req.params;
-  const c = await Course.findById(id);
-  res.render('course', { c, user: req.user, session: req.session });
-});
-
-app.get('/dashboard', checkAuth, async (req, res) => {
-  res.render('dashboard', { user: req.user });
-});
-
+app.use('/', courseRoute);
 app.use('/auth', userRoute);
 
 app.all('*', (req, res, next) => {

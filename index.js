@@ -7,6 +7,7 @@ const ejsMate = require('ejs-mate');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
+
 const initialize = require('./utils/passport-config');
 const expressError = require('./utils/expressError');
 
@@ -14,6 +15,7 @@ const userRoute = require('./routes/user');
 const courseRoute = require('./routes/course');
 
 const User = require('./models/user');
+const Course = require('./models/course');
 
 const app = express();
 
@@ -50,13 +52,18 @@ app.use(methodOverride('_method'));
 app.use('/course', courseRoute);
 app.use('/auth', userRoute);
 
-app.get('/', (req, res) => {
-  res.render('home', { user: req.user, session: req.session });
+app.get('/', async (req, res) => {
+  const courses = await Course.find({});
+  res.render('pages/home', { courses, user: req.user, session: req.session });
 });
 
 app.get('/about', (req, res) => {
-  res.render('about', { user: req.user, session: req.session });
+  res.render('pages/about', { user: req.user, session: req.session });
 });
+
+// app.get('/about', (req, res) => {
+//   res.render('about', { user: req.user, session: req.session });
+// });
 
 app.all('*', (req, res, next) => {
   next(new expressError('Page Not found', 404));
@@ -65,7 +72,7 @@ app.all('*', (req, res, next) => {
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
   if (!err.message) err.message = 'Someting Went Wrong!!';
-  res.status(statusCode).render('error', { err });
+  res.status(statusCode).render('pages/error', { err });
 });
 
 app.use((req, res, next) => {

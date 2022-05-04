@@ -1,5 +1,7 @@
 <header>
-    <h1>Sinauu</h1>
+    <div class="logo">
+        <h1>Sinauu</h1>
+    </div>
     <div class="menu">
         <a href="/">Home</a>
         <a href="/course">Course</a>
@@ -9,10 +11,19 @@
         <% if (!session.user&&!user) {%>
             <a href="/auth/sign-up">Sign Up</a>
             <a href="/auth/sign-in">Sign In</a>
-            <% } else { %>
-                <span style="font-size: 20px; margin-right: 20px;">Hi, <%= user.username %> </span>
-                <a href="/auth/sign-out">Sign Out</a>
-                <% } %>
     </div>
+    <% } else { %>
+        <div class="out">
+            <img src="<%= user.profile %> " alt="">
+            <a>
+                Hi, <%= user.username %>
+            </a>
+            <div class="dropdown">
+                <a href="/auth/account/<%= user.id %> ">Account</a>
+                <a href="/auth/sign-out">Sign Out</a>
+            </div>
+
+            <% } %>
+        </div>
 
 </header>

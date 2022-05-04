@@ -2,15 +2,23 @@ const Course = require('../models/course');
 
 module.exports.index = async (req, res) => {
   const courses = await Course.find({});
-  res.render('courses', { courses, user: req.user, session: req.session });
+  res.render('pages/courses', {
+    courses,
+    user: req.user,
+    session: req.session,
+  });
 };
 
 module.exports.showCourse = async (req, res) => {
   const { id } = req.params;
-  const c = await Course.findById(id);
-  res.render('course', { c, user: req.user, session: req.session });
+  const course = await Course.findById(id);
+  res.render('pages/singleCourse', {
+    course,
+    user: req.user,
+    session: req.session,
+  });
 };
 
 module.exports.about = (req, res) => {
-  res.render('about', { user: req.user, session: req.session });
+  res.render('pages/about', { user: req.user, session: req.session });
 };

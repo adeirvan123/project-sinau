@@ -1,0 +1,31 @@
+<% layout('layout/layout') %>
+    <div class="container">
+        <div class="courses-top">
+            <h1 class="courses-title">List of Course</h1>
+            <div class="search">
+                <input type="text" placeholder="Search..." class="search-input">
+            </div>
+        </div>
+        <div class="courses">
+            <% for (let course of courses) {%>
+                <div class="courses-list">
+                    <img src="<%= course.image %> " alt="">
+                    <div class="courses-text">
+                        <h1>
+                            <a href="/course/<%= course.id %> ">
+                                <%= course.name %>
+                            </a>
+                        </h1>
+                        <p>
+                            <%= course.desc %>
+                        </p>
+                        <div class="date">
+                            <p>
+                                <%= course.createdAt.toLocaleDateString("en-US") %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+        </div>
+    </div>

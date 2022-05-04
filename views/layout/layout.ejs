@@ -9,15 +9,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <title>Admin</title>
 </head>
 
 <body>
+    <div class="pop">
+        <%- include('../components/info') %>
+    </div>
     <%- include('../partial/navbar') %>
         <div class="main">
             <%- body %>
         </div>
         <%- include('../partial/footer') %>
+
+            <script src="/javascripts/script.js"></script>
 </body>
 
 </html>

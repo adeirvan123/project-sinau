@@ -7,7 +7,7 @@ module.exports.renderSignIn = (req, res) => {
 };
 
 module.exports.signIn = passport.authenticate('local', {
-  successRedirect: '/dashboard',
+  successRedirect: '/course',
   failureRedirect: '/auth/sign-in',
   failureFlash: true,
 });
@@ -25,6 +25,7 @@ module.exports.signUp = async (req, res) => {
     try {
       const hashed = await bcrypt.hash(req.body.password, 10);
       const user = new User({
+        profile: req.body.profile,
         username: req.body.username,
         email: req.body.email,
         password: hashed,
@@ -41,4 +42,20 @@ module.exports.signUp = async (req, res) => {
 module.exports.signOut = (req, res) => {
   req.logOut();
   res.redirect('/auth/sign-in');
+};
+
+module.exports.renderUpdate = async (req, res) => {
+  const users = await User.findById(req.body.id);
+  res.render('auth/account', { users, user: req.user, session: req.session });
+};
+
+module.exports.updateUser = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findByIdAndUpdate(id, {
+    username: req.body.username,
+    email: req.body.email,
+    profile: req.file.path,
+  });
+  await user.save();
+  res.redirect('/');
 };

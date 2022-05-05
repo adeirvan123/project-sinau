@@ -7,10 +7,13 @@ const ejsMate = require('ejs-mate');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
-const { checkAuth } = require('./middleware/auth');
+
 const initialize = require('./utils/passport-config');
-const userRoute = require('./routes/user');
 const expressError = require('./utils/expressError');
+
+const userRoute = require('./routes/user');
+const courseRoute = require('./routes/course');
+
 const User = require('./models/user');
 const Course = require('./models/course');
 
@@ -46,22 +49,21 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 
+app.use('/course', courseRoute);
+app.use('/auth', userRoute);
+
 app.get('/', async (req, res) => {
   const courses = await Course.find({});
-  res.render('home', { courses });
+  res.render('pages/home', { courses, user: req.user, session: req.session });
 });
 
-app.get('/course/:id', async (req, res) => {
-  const { id } = req.params;
-  const c = await Course.findById(id);
-  res.render('course', { c });
+app.get('/about', (req, res) => {
+  res.render('pages/about', { user: req.user, session: req.session });
 });
 
-app.get('/dashboard', checkAuth, async (req, res) => {
-  res.render('dashboard', { user: req.user });
-});
-
-app.use('/auth', userRoute);
+// app.get('/about', (req, res) => {
+//   res.render('about', { user: req.user, session: req.session });
+// });
 
 app.all('*', (req, res, next) => {
   next(new expressError('Page Not found', 404));
@@ -70,7 +72,14 @@ app.all('*', (req, res, next) => {
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
   if (!err.message) err.message = 'Someting Went Wrong!!';
-  res.status(statusCode).render('error', { err });
+  res.status(statusCode).render('pages/error', { err });
+});
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
 });
 
 mongoose

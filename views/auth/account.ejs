@@ -1,0 +1,18 @@
+<% layout('layout/layout') %>
+    <div class="container">
+        <h1 class="account-title">Settings</h1>
+        <div class="account">
+            <form action="/auth/account/<%= user.id %>?_method=PUT" method="POST" class="form-group"
+                enctype="multipart/form-data">
+                <div class="profile">
+                    <img src="<%= user.profile %>" id="profile-picture" alt="profile picture">
+                    <label for="img" class="plus"><i class="fa-solid fa-pen-to-square"></i></label>
+                    <input accept="image/*" type="file" id="img" class="input-image" name="profilePicture"
+                        onchange="loadFile(event)">
+                </div>
+                <input type="text" placeholder="Username" name="username" value="<%= user.username %>">
+                <input type="text" placeholder="Email" name="email" value="<%= user.email %>">
+                <button>Update</button>
+            </form>
+        </div>
+    </div>

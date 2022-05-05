@@ -128,3 +128,11 @@ function filter() {
 function myClose() {
   document.querySelector('.info').style.display = 'none';
 }
+
+function loadFile(event) {
+  const output = document.getElementById('profile-picture');
+  output.src = URL.createObjectURL(event.target.files[0]);
+  output.onload = function () {
+    URL.revokeObjectURL(output.src); // free memory
+  };
+}
